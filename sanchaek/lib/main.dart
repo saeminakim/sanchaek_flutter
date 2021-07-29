@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'constants/customColor.dart';
+import 'constants/customColor.dart';
+import 'pages/home.dart';
+import 'pages/journalList.dart';
+import 'pages/wishList.dart';
+import 'pages/search.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -28,11 +35,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _selectedIndex = 0;
 
-  void _incrementCounter() {
+  List<Widget> _menus = [Home(), JournalList(), WishList(), Search()];
+
+  void _onTap(int index) {
     setState(() {
-      _counter++;
+      _selectedIndex = index;
     });
   }
 
@@ -40,7 +49,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        backgroundColor: CustomColors.bgNavy,
+        title: Text(
+          widget.title,
+          style: TextStyle(color: CustomColors.bgPink),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.menu),
@@ -48,24 +61,15 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
+      body: _menus[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: CustomColors.bgPink,
+        selectedItemColor: CustomColors.bgNavy,
+        currentIndex: _selectedIndex,
+        onTap: _onTap,
         items: [
           BottomNavigationBarItem(
-            backgroundColor: Colors.blue,
             icon: Icon(Icons.home),
             label: 'Home',
           ),
@@ -82,18 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
             label: '검색',
           ),
         ],
-        selectedItemColor: Colors.white,
-        onTap: _print,
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: Icon(Icons.add),
-      // ),
     );
-  }
-
-  void _print(int index) {
-    print(index);
   }
 }
