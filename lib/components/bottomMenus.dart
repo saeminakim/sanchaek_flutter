@@ -5,7 +5,7 @@ import 'package:sanchaek/pages/journalList.dart';
 import 'package:sanchaek/pages/search.dart';
 import 'package:sanchaek/pages/wishList.dart';
 
-import 'customColor.dart';
+import '../constants/customColor.dart';
 
 class BottomMenus extends StatefulWidget {
   @override
@@ -14,6 +14,8 @@ class BottomMenus extends StatefulWidget {
 
 class _BottomMenusState extends State<BottomMenus> {
   int _selectedIndex = 0;
+
+  CupertinoTabView returnValue;
 
   _onTap(int index) {
     setState(() {
@@ -53,30 +55,43 @@ class _BottomMenusState extends State<BottomMenus> {
       tabBuilder: (context, index) {
         switch (index) {
           case 0:
-            return CupertinoTabView(
+            returnValue = CupertinoTabView(
               builder: (context) {
-                return Home();
+                return CupertinoPageScaffold(
+                  child: Home(),
+                );
               },
             );
+            break;
           case 1:
-            return CupertinoTabView(
+            returnValue = CupertinoTabView(
               builder: (context) {
-                return JournalList();
+                return CupertinoPageScaffold(
+                  child: JournalList(),
+                );
               },
             );
+            break;
           case 2:
-            return CupertinoTabView(
+            returnValue = CupertinoTabView(
               builder: (context) {
-                return WishList();
+                return CupertinoPageScaffold(
+                  child: WishList(),
+                );
               },
             );
+            break;
           case 3:
-            return CupertinoTabView(
+            returnValue = CupertinoTabView(
               builder: (context) {
-                return Search();
+                return CupertinoPageScaffold(
+                  child: Search(),
+                );
               },
             );
+            break;
         }
+        return returnValue;
       },
       // body: _menus[_selectedIndex],
       // bottomNavigationBar: BottomNavigationBar(

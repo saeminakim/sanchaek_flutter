@@ -8,7 +8,7 @@ class WishList extends StatefulWidget {
 class _WishListState extends State<WishList> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Center(
       child: Text('This is WishList'),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sanchaek/pages/mainPage.dart';
 
-import 'constants/bottomMenus.dart';
 import 'constants/customColor.dart';
 
 class App extends StatefulWidget {
@@ -19,7 +19,7 @@ class _AppState extends State<App> {
       theme: CupertinoThemeData(
         primaryColor: CustomColors.bgNavy,
       ),
-      home: BottomMenus(),
+      home: MainPage(),
     );
   }
 }

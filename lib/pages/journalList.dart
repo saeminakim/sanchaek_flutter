@@ -8,7 +8,7 @@ class JournalList extends StatefulWidget {
 class _JournalListState extends State<JournalList> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Center(
       child: Text('This is JournalList'),
     );
   }
