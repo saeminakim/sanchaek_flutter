@@ -12,15 +12,15 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        backgroundColor: CustomColors.bgNavy,
-        middle: Text(
-          '마음산.책',
-          style: TextStyle(
-            color: CustomColors.bgPink,
-          ),
-        ),
-      ),
+      // navigationBar: CupertinoNavigationBar(
+      //   backgroundColor: CustomColors.bgNavy,
+      //   middle: Text(
+      //     '마음산.책',
+      //     style: TextStyle(
+      //       color: CustomColors.bgPink,
+      //     ),
+      //   ),
+      // ),
       child: BottomMenus(),
     );
   }

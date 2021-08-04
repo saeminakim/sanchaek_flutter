@@ -8,10 +8,32 @@ part of 'bookModel.dart';
 
 BookModel _$BookModelFromJson(Map<String, dynamic> json) {
   return BookModel(
+    bookId: json['bookId'] as int,
     title: json['title'] as String,
+    contents: json['contents'] as String,
+    url: json['url'] as String,
+    dateTime: json['dateTime'] == null
+        ? null
+        : DateTime.parse(json['dateTime'] as String),
+    authors: json['authors'] as String,
+    publisher: json['publisher'] as String,
+    translators: json['translators'] as String,
+    thumbnail: json['thumbnail'] as String,
+    isRead: json['isRead'] as bool,
+    isSaved: json['isSaved'] as bool,
   );
 }
 
 Map<String, dynamic> _$BookModelToJson(BookModel instance) => <String, dynamic>{
+      'bookId': instance.bookId,
       'title': instance.title,
+      'contents': instance.contents,
+      'url': instance.url,
+      'dateTime': instance.dateTime?.toIso8601String(),
+      'authors': instance.authors,
+      'publisher': instance.publisher,
+      'translators': instance.translators,
+      'thumbnail': instance.thumbnail,
+      'isRead': instance.isRead,
+      'isSaved': instance.isSaved,
     };

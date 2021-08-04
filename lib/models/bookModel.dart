@@ -4,10 +4,30 @@ part 'bookModel.g.dart';
 
 @JsonSerializable()
 class BookModel {
+  final int bookId;
   final String title;
+  final String contents;
+  final String url;
+  final DateTime dateTime;
+  final String authors;
+  final String publisher;
+  final String translators;
+  final String thumbnail;
+  final bool isRead;
+  final bool isSaved;
 
   BookModel({
+    this.bookId,
     this.title,
+    this.contents,
+    this.url,
+    this.dateTime,
+    this.authors,
+    this.publisher,
+    this.translators,
+    this.thumbnail,
+    this.isRead,
+    this.isSaved,
   });
 
   factory BookModel.fromJson(Map<String, dynamic> json) =>

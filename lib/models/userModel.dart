@@ -1,16 +1,23 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sanchaek/models/goalModel.dart';
 
+import 'bookModel.dart';
+import 'journalModel.dart';
+
 part 'userModel.g.dart';
 
 @JsonSerializable()
 class UserModel {
   final String name;
-  final List<GoalModel> goal;
+  final GoalModel goals;
+  final List<JournalModel> journals;
+  final List<BookModel> books;
 
   UserModel({
     this.name,
-    this.goal,
+    this.goals,
+    this.journals,
+    this.books,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
