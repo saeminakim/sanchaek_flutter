@@ -13,6 +13,18 @@ class _HomeState extends State<Home> {
   final String quote =
       '사람들은 의사가 환자를 치료하는 것이라고 생각하지만 꼭 그런 것만은 아니다. 생각해보면 환자가 의사를 먹여 살리는 셈이고, 때로는 환자가 의사를 치료하기도 한다. ';
 
+  double devicePixelRatio;
+  int displayWidth;
+  int displayHeight;
+
+  @override
+  void initState() {
+    super.initState();
+    load();
+  }
+
+  load() {}
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -20,7 +32,7 @@ class _HomeState extends State<Home> {
         middle: Text(
           '$name님의 서재',
           style: TextStyle(
-            color: CustomColors.bgPink,
+            color: CustomColors.iconNavy,
             fontSize: 15,
           ),
         ),
@@ -65,11 +77,11 @@ class _HomeState extends State<Home> {
           },
           child: Icon(
             Icons.settings,
-            color: CustomColors.bgPink,
+            color: CustomColors.iconGrey,
             size: 20,
           ),
         ),
-        backgroundColor: CustomColors.bgNavy,
+        backgroundColor: CustomColors.bgGrey,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -84,12 +96,22 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _topImage() => Container(
-        alignment: Alignment.center,
-        child: Image(
-          image: NetworkImage('https://picsum.photos/350/200'),
-        ),
-      );
+  Widget _topImage() {
+    devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+    displayWidth =
+        (MediaQuery.of(context).size.width * devicePixelRatio * 0.8).toInt();
+    displayHeight =
+        (MediaQuery.of(context).size.height * devicePixelRatio * 0.3).toInt();
+
+    return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.all(8),
+      child: Image(
+        image:
+            NetworkImage('https://picsum.photos/$displayWidth/$displayHeight'),
+      ),
+    );
+  }
 
   Widget _quote() => Container(
         alignment: Alignment.center,

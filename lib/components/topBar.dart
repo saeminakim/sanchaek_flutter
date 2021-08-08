@@ -13,11 +13,11 @@ class _TopBarState extends State<TopBar> {
   @override
   Widget build(BuildContext context) {
     return CupertinoNavigationBar(
-      backgroundColor: CustomColors.bgNavy,
+      backgroundColor: CustomColors.bgGrey,
       middle: Text(
         '마음산.책',
         style: TextStyle(
-          color: Colors.white,
+          color: CustomColors.iconNavy,
         ),
       ),
     );

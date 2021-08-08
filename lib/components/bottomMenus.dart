@@ -27,9 +27,9 @@ class _BottomMenusState extends State<BottomMenus> {
   Widget build(BuildContext context) {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
-        backgroundColor: CustomColors.bgNavy,
-        activeColor: CustomColors.bgPink,
-        inactiveColor: Colors.white,
+        backgroundColor: CustomColors.bgGrey,
+        activeColor: CustomColors.iconNavy,
+        inactiveColor: CustomColors.iconGrey,
         currentIndex: _selectedIndex,
         onTap: _onTap(_selectedIndex),
         iconSize: 20,

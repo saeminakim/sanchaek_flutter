@@ -17,7 +17,7 @@ class _AppState extends State<App> {
     return CupertinoApp(
       title: '마음산.책',
       theme: CupertinoThemeData(
-        primaryColor: CustomColors.bgNavy,
+        primaryColor: CustomColors.bgGrey,
       ),
       home: MainPage(),
     );
