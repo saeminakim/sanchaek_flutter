@@ -17,8 +17,12 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoSearchTextField(
-      controller: _textController,
+    return Center(
+      child: Text('This is search'),
     );
+
+    // CupertinoSearchTextField(
+    //   controller: _textController,
+    // );
   }
 }
