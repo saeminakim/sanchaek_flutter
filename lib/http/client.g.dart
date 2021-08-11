@@ -19,7 +19,7 @@ class _Client implements Client {
   Future<BookModel> books(keyword) async {
     ArgumentError.checkNotNull(keyword, 'keyword');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'keyword': keyword};
+    final queryParameters = <String, dynamic>{r'query': keyword};
     final _data = <String, dynamic>{};
     final _result = await _dio.request<Map<String, dynamic>>('/books',
         queryParameters: queryParameters,

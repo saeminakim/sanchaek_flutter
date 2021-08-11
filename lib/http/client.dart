@@ -6,7 +6,7 @@ import 'package:sanchaek/models/bookModel.dart';
 part 'client.g.dart';
 
 const protocol = 'http';
-const host = '192.168.45.171:5000';
+const host = '192.168.45.166:8080';
 
 @RestApi()
 abstract class Client {
@@ -33,6 +33,6 @@ abstract class Client {
 
   @GET("/books")
   Future<BookModel> books(
-    @Query("keyword") String keyword,
+    @Query("query") String keyword,
   );
 }
