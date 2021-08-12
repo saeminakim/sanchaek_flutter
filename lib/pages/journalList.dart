@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class JournalList extends StatefulWidget {
@@ -9,7 +10,9 @@ class _JournalListState extends State<JournalList> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('This is JournalList'),
+      child: CupertinoNavigationBar(
+        middle: Text('JournalList'),
+      ),
     );
   }
 }

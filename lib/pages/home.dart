@@ -18,17 +18,15 @@ class _HomeState extends State<Home> {
   int displayHeight;
 
   @override
-  void initState() {
-    super.initState();
-    load();
-  }
-
-  load() {}
-
-  @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
+        backgroundColor: Colors.transparent,
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.transparent,
+          ),
+        ),
         middle: Text(
           '$name님의 서재',
           style: TextStyle(
@@ -81,7 +79,6 @@ class _HomeState extends State<Home> {
             size: 20,
           ),
         ),
-        backgroundColor: CustomColors.bgGrey,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -16,12 +16,12 @@ class _Client implements Client {
   String baseUrl;
 
   @override
-  Future<BookModel> books(keyword) async {
+  Future<List<BookModel>> books(keyword) async {
     ArgumentError.checkNotNull(keyword, 'keyword');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'query': keyword};
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>('/books',
+    final _result = await _dio.request<List<dynamic>>('/books',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -29,7 +29,9 @@ class _Client implements Client {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = BookModel.fromJson(_result.data);
+    var value = _result.data
+        .map((dynamic i) => BookModel.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 }
