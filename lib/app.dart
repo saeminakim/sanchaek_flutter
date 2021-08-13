@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sanchaek/pages/mainPage.dart';
 
@@ -24,6 +23,7 @@ class _AppState extends State<App> {
       theme: CupertinoThemeData(
         primaryColor: CustomColors.iconNavy,
         brightness: Brightness.light,
+        scaffoldBackgroundColor: CupertinoColors.systemGrey6,
       ),
       home: MainPage(),
     );

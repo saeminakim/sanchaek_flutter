@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:sanchaek/constants/customColor.dart';
 import 'package:sanchaek/http/client.dart';
 import 'package:sanchaek/models/bookModel.dart';
-import 'package:sanchaek/pages/bookSummary.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -22,12 +21,13 @@ class _SearchState extends State<Search> {
   List<BookModel> _books = [];
   double devicePixelRatio;
   double displayHeight;
+  double displayWidth;
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        backgroundColor: Colors.white,
+        backgroundColor: CupertinoColors.systemGrey6,
         border: Border(
           bottom: BorderSide(
             color: Colors.transparent,
@@ -57,35 +57,38 @@ class _SearchState extends State<Search> {
     );
   }
 
-  _searchBar() => DecoratedBox(
-        decoration: BoxDecoration(
-          color: CustomColors.bgGrey,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 8,
-            vertical: 4,
+  _searchBar() => Container(
+        margin: EdgeInsets.only(left: 6, right: 6),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: CupertinoColors.white,
+            borderRadius: BorderRadius.circular(12),
           ),
-          child: Row(
-            children: [
-              Expanded(
-                child: CupertinoTextField(
-                  controller: _textController,
-                  decoration: null,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: 4,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: CupertinoTextField(
+                    controller: _textController,
+                    decoration: null,
+                  ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () async {
-                  _books = await Client.create().books(_textController.text);
-                  setState(() {});
-                },
-                child: Icon(
-                  CupertinoIcons.search,
-                  color: CustomColors.iconGrey,
+                GestureDetector(
+                  onTap: () async {
+                    _books = await Client.create().books(_textController.text);
+                    setState(() {});
+                  },
+                  child: Icon(
+                    CupertinoIcons.search,
+                    color: CustomColors.iconGrey,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -93,8 +96,11 @@ class _SearchState extends State<Search> {
   _bookList() {
     devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
     displayHeight = MediaQuery.of(context).size.height * devicePixelRatio;
+    displayWidth = MediaQuery.of(context).size.width * devicePixelRatio;
 
     return Container(
+      height: displayHeight * 0.25,
+      padding: EdgeInsets.all(10),
       child: ListView(
         children: List.generate(
           _books.length,
@@ -102,45 +108,60 @@ class _SearchState extends State<Search> {
         ),
       ),
     );
-    // return Container(
-    //   height: displayHeight * 0.8,
-    //   child: GridView.count(
-    //     crossAxisCount: 2,
-    //     children: List.generate(
-    //       _books.length,
-    //       (index) => _book(_books[index]),
-    //     ),
-    //   ),
-    // );
   }
 
   _book(BookModel book) {
-    final thumbnail = book.thumbnail;
-    return CupertinoButton(
-      onPressed: () {},
-      child: Container(
+    return Stack(
+      children: [
+        Positioned(
+          left: displayWidth * 0.06,
+          top: displayHeight * 0.01,
+          child: _bookCard(book),
+        ),
+        _bookThumbnail(book),
+      ],
+    );
+  }
+
+  _bookCard(BookModel book) => Container(
+        width: displayWidth * 0.24,
+        decoration: BoxDecoration(
+          color: CupertinoColors.white,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: EdgeInsets.all(8),
         child: Row(
           children: [
             Container(
-              child: Image(
-                image: NetworkImage(thumbnail),
-                height: 100,
-                // height: displayHeight * 0.1,
-              ),
+              height: displayHeight * 0.037,
+              width: displayWidth * 0.01,
             ),
             Expanded(
               flex: 2,
               child: Column(
                 children: [
                   Container(
+                    alignment: Alignment.topRight,
+                    child: Icon(
+                      CupertinoIcons.heart,
+                      color: CustomColors.iconGrey,
+                      size: 10,
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.all(8),
                     child: Text(
                       book.title,
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
                   Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(left: 10),
                     child: Text(
                       book.authors,
                       style: TextStyle(
@@ -153,7 +174,32 @@ class _SearchState extends State<Search> {
             ),
           ],
         ),
+      );
+
+  _bookThumbnail(BookModel book) {
+    final thumbnail = book.thumbnail;
+    final thumbnailIsEmpty = thumbnail.isEmpty;
+    return Container(
+      decoration: BoxDecoration(
+        color: CupertinoColors.white,
+        borderRadius: BorderRadius.circular(4),
+        boxShadow: [
+          BoxShadow(
+            color: CupertinoColors.systemGrey4.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 4,
+            offset: Offset(1, 3),
+          ),
+        ],
       ),
+      height: displayHeight * 0.055,
+      padding: EdgeInsets.all(4),
+      margin: EdgeInsets.all(8),
+      child: thumbnailIsEmpty
+          ? Image.asset('assets/noimage.png')
+          : Image(
+              image: NetworkImage(thumbnail),
+            ),
     );
   }
 }

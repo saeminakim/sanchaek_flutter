@@ -10,9 +10,7 @@ class _JournalListState extends State<JournalList> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CupertinoNavigationBar(
-        middle: Text('JournalList'),
-      ),
+      child: Text('JournalList'),
     );
   }
 }
