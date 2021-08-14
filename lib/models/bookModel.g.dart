@@ -19,6 +19,7 @@ BookModel _$BookModelFromJson(Map<String, dynamic> json) {
     publisher: json['publisher'] as String,
     translators: json['translators'] as String,
     thumbnail: json['thumbnail'] as String,
+    isbn: json['isbn'] as String,
     isRead: json['isRead'] as bool,
     isSaved: json['isSaved'] as bool,
   );
@@ -34,6 +35,7 @@ Map<String, dynamic> _$BookModelToJson(BookModel instance) => <String, dynamic>{
       'publisher': instance.publisher,
       'translators': instance.translators,
       'thumbnail': instance.thumbnail,
+      'isbn': instance.isbn,
       'isRead': instance.isRead,
       'isSaved': instance.isSaved,
     };

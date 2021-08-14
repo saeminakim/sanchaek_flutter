@@ -19,9 +19,13 @@ class _SearchState extends State<Search> {
   }
 
   List<BookModel> _books = [];
+  List<BookModel> _savedBooks = [];
+
   double devicePixelRatio;
   double displayHeight;
   double displayWidth;
+
+  bool alreadySaved = false;
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +115,8 @@ class _SearchState extends State<Search> {
   }
 
   _book(BookModel book) {
+    alreadySaved = _savedBooks.contains(book.isbn);
+
     return Stack(
       children: [
         Positioned(
@@ -123,58 +129,88 @@ class _SearchState extends State<Search> {
     );
   }
 
-  _bookCard(BookModel book) => Container(
-        width: displayWidth * 0.24,
-        decoration: BoxDecoration(
-          color: CupertinoColors.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        padding: EdgeInsets.all(8),
-        child: Row(
-          children: [
-            Container(
-              height: displayHeight * 0.037,
-              width: displayWidth * 0.01,
-            ),
-            Expanded(
-              flex: 2,
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.topRight,
+  _bookCard(BookModel book) {
+    return Container(
+      width: displayWidth * 0.24,
+      decoration: BoxDecoration(
+        color: CupertinoColors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      padding: EdgeInsets.all(8),
+      child: Row(
+        children: [
+          Container(
+            height: displayHeight * 0.037,
+            width: displayWidth * 0.01,
+          ),
+          Expanded(
+            flex: 2,
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      print("위시리스트 가기");
+                      setState(() {
+                        if (alreadySaved) {
+                          _savedBooks.remove(book);
+                          alreadySaved = false;
+                        } else {
+                          _savedBooks.add(book);
+                          alreadySaved = true;
+                        }
+                      });
+                    },
                     child: Icon(
-                      CupertinoIcons.heart,
-                      color: CustomColors.iconGrey,
+                      alreadySaved
+                          ? CupertinoIcons.heart_fill
+                          : CupertinoIcons.heart,
+                      color: alreadySaved
+                          ? CupertinoColors.systemRed
+                          : CustomColors.iconGrey,
                       size: 10,
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.all(8),
-                    child: Text(
-                      book.title,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                      ),
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    book.title,
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text(
-                      book.authors,
-                      style: TextStyle(
-                        fontSize: 10,
-                      ),
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(
+                    book.authors,
+                    style: TextStyle(
+                      fontSize: 10,
                     ),
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(
+                    '',
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 
   _bookThumbnail(BookModel book) {
     final thumbnail = book.thumbnail;
@@ -201,5 +237,9 @@ class _SearchState extends State<Search> {
               image: NetworkImage(thumbnail),
             ),
     );
+  }
+
+  _saveBook(BookModel book) {
+    //TODO 책을 받아서 DB에 저장하는 API 호출
   }
 }
