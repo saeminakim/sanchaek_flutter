@@ -6,7 +6,9 @@ import 'package:sanchaek/models/bookModel.dart';
 part 'client.g.dart';
 
 const protocol = 'http';
-const host = '192.168.45.166:8080';
+
+// const host = '192.168.45.166:8080';
+const host = '192.168.45.233:8080';
 // const host = '192.168.0.24:8080';
 
 @RestApi()
