@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sanchaek/constants/customColor.dart';
 import 'package:sanchaek/http/client.dart';
 import 'package:sanchaek/models/bookModel.dart';
+import 'package:sanchaek/models/requestSavedModel.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -21,11 +22,11 @@ class _SearchState extends State<Search> {
   List<BookModel> _books = [];
   List<BookModel> _savedBooks = [];
 
+  bool alreadySaved = false;
+
   double devicePixelRatio;
   double displayHeight;
   double displayWidth;
-
-  bool alreadySaved = false;
 
   @override
   Widget build(BuildContext context) {
@@ -115,8 +116,6 @@ class _SearchState extends State<Search> {
   }
 
   _book(BookModel book) {
-    alreadySaved = _savedBooks.contains(book.isbn);
-
     return Stack(
       children: [
         Positioned(
@@ -147,31 +146,35 @@ class _SearchState extends State<Search> {
             flex: 2,
             child: Column(
               children: [
-                Container(
-                  alignment: Alignment.topRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      print("위시리스트 가기");
-                      setState(() {
-                        if (alreadySaved) {
-                          _savedBooks.remove(book);
-                          alreadySaved = false;
-                        } else {
-                          _savedBooks.add(book);
-                          alreadySaved = true;
-                        }
-                      });
-                    },
-                    child: Icon(
-                      alreadySaved
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      color: alreadySaved
-                          ? CupertinoColors.systemRed
-                          : CustomColors.iconGrey,
-                      size: 10,
-                    ),
-                  ),
+                GestureDetector(
+                  onTap: () {
+                    if (_savedBooks.contains(book.url)) {
+                      book.isSaved = false;
+                      _savedBooks.remove(book);
+                    } else {
+                      _savedBooks.add(book);
+                      book.isSaved = true;
+                    }
+
+                    print(_savedBooks);
+
+                    alreadySaved = book.isSaved;
+
+                    setState(() {});
+                  },
+                  child: Container(
+                      alignment: Alignment.topRight,
+                      child: alreadySaved
+                          ? Icon(
+                              CupertinoIcons.heart_fill,
+                              color: CupertinoColors.systemRed,
+                              size: 10,
+                            )
+                          : Icon(
+                              CupertinoIcons.heart,
+                              color: CustomColors.iconGrey,
+                              size: 10,
+                            )),
                 ),
                 Container(
                   alignment: Alignment.centerLeft,

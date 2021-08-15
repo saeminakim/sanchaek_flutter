@@ -8,14 +8,14 @@ class BookModel {
   final String title;
   final String contents;
   final String url;
-  final DateTime dateTime;
+  final String dateTime;
   final String authors;
   final String publisher;
   final String translators;
   final String thumbnail;
   final String isbn;
-  final bool isRead;
-  final bool isSaved;
+  bool isRead;
+  bool isSaved;
 
   BookModel({
     this.bookId,
