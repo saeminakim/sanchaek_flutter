@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:sanchaek/constants/customColor.dart';
 import 'package:sanchaek/http/client.dart';
 import 'package:sanchaek/models/bookModel.dart';
+import 'package:sanchaek/models/requestSavedModel.dart';
+import 'package:sanchaek/store/wishListStore.dart';
+import '../models/wishListModel.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -10,22 +13,19 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  TextEditingController _textController = TextEditingController();
+  TextEditingController _textController;
 
   @override
   void initState() {
     super.initState();
-    _textController.text = '';
+    _textController = TextEditingController();
   }
 
   List<BookModel> _books = [];
-  List<BookModel> _savedBooks = [];
 
   double devicePixelRatio;
   double displayHeight;
   double displayWidth;
-
-  bool alreadySaved = false;
 
   @override
   Widget build(BuildContext context) {
@@ -115,8 +115,6 @@ class _SearchState extends State<Search> {
   }
 
   _book(BookModel book) {
-    alreadySaved = _savedBooks.contains(book.isbn);
-
     return Stack(
       children: [
         Positioned(
@@ -147,30 +145,37 @@ class _SearchState extends State<Search> {
             flex: 2,
             child: Column(
               children: [
-                Container(
-                  alignment: Alignment.topRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      print("위시리스트 가기");
-                      setState(() {
-                        if (alreadySaved) {
-                          _savedBooks.remove(book);
-                          alreadySaved = false;
-                        } else {
-                          _savedBooks.add(book);
-                          alreadySaved = true;
-                        }
-                      });
-                    },
-                    child: Icon(
-                      alreadySaved
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      color: alreadySaved
-                          ? CupertinoColors.systemRed
-                          : CustomColors.iconGrey,
-                      size: 10,
-                    ),
+                GestureDetector(
+                  onTap: () {
+                    _saveBook(book);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        child: book.isSaved == null
+                            ? Icon(
+                                CupertinoIcons.heart,
+                                color: CustomColors.iconGrey,
+                                size: 10,
+                              )
+                            : Icon(
+                                CupertinoIcons.heart_fill,
+                                color: CupertinoColors.systemRed,
+                                size: 10,
+                              ),
+                      ),
+                      Container(
+                        width: 3,
+                      ),
+                      Container(
+                        child: Icon(
+                          CupertinoIcons.book,
+                          color: CustomColors.iconGrey,
+                          size: 10,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Container(
@@ -240,6 +245,30 @@ class _SearchState extends State<Search> {
   }
 
   _saveBook(BookModel book) {
-    //TODO 책을 받아서 DB에 저장하는 API 호출
+    final result = WishListStore.instance.wishBooks
+        .where((e) => e.url.contains(book.url))
+        .isEmpty;
+
+    if (result) {
+      final id = WishListStore.instance.wishBooks.length;
+      WishListStore.instance.wishBooks.add(WishListModel(
+        wishBookId: id,
+        title: book.title,
+        content: book.contents,
+        url: book.url,
+        dateTime: book.dateTime,
+        authors: book.authors,
+        publisher: book.publisher,
+        translators: book.translators,
+        thumbnail: book.thumbnail,
+        isbn: book.isbn,
+        isRead: false,
+        isSaved: true,
+      ));
+    }
+
+    print(result);
+
+    setState(() {});
   }
 }

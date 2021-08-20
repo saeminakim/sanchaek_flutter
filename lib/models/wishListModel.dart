@@ -1,12 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'bookModel.g.dart';
+part 'wishListModel.g.dart';
 
 @JsonSerializable()
-class BookModel {
-  final int bookId;
+class WishListModel {
+  final int wishBookId;
   final String title;
-  final String contents;
+  final String content;
   final String url;
   final String dateTime;
   final String authors;
@@ -17,10 +17,10 @@ class BookModel {
   bool isRead;
   bool isSaved;
 
-  BookModel({
-    this.bookId,
+  WishListModel({
+    this.wishBookId,
     this.title,
-    this.contents,
+    this.content,
     this.url,
     this.dateTime,
     this.authors,
@@ -32,8 +32,8 @@ class BookModel {
     this.isSaved,
   });
 
-  factory BookModel.fromJson(Map<String, dynamic> json) =>
-      _$BookModelFromJson(json);
+  factory WishListModel.fromJson(Map<String, dynamic> json) =>
+      _$WishListModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BookModelToJson(this);
+  Map<String, dynamic> toJson() => _$WishListModelToJson(this);
 }

@@ -1,16 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bookModel.dart';
+part of 'wishListModel.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-BookModel _$BookModelFromJson(Map<String, dynamic> json) {
-  return BookModel(
-    bookId: json['bookId'] as int,
+WishListModel _$WishListModelFromJson(Map<String, dynamic> json) {
+  return WishListModel(
+    wishBookId: json['wishBookId'] as int,
     title: json['title'] as String,
-    contents: json['contents'] as String,
+    content: json['content'] as String,
     url: json['url'] as String,
     dateTime: json['dateTime'] as String,
     authors: json['authors'] as String,
@@ -23,10 +23,11 @@ BookModel _$BookModelFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$BookModelToJson(BookModel instance) => <String, dynamic>{
-      'bookId': instance.bookId,
+Map<String, dynamic> _$WishListModelToJson(WishListModel instance) =>
+    <String, dynamic>{
+      'wishBookId': instance.wishBookId,
       'title': instance.title,
-      'contents': instance.contents,
+      'content': instance.content,
       'url': instance.url,
       'dateTime': instance.dateTime,
       'authors': instance.authors,
