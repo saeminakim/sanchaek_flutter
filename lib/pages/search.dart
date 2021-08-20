@@ -262,8 +262,6 @@ class _SearchState extends State<Search> {
         translators: book.translators,
         thumbnail: book.thumbnail,
         isbn: book.isbn,
-        isRead: false,
-        isSaved: true,
       ));
     }
 
