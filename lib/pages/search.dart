@@ -153,7 +153,7 @@ class _SearchState extends State<Search> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
-                        child: book.isSaved == null
+                        child: !book.isSaved
                             ? Icon(
                                 CupertinoIcons.heart,
                                 color: CustomColors.iconGrey,
@@ -245,27 +245,31 @@ class _SearchState extends State<Search> {
   }
 
   _saveBook(BookModel book) {
-    final result = WishListStore.instance.wishBooks
-        .where((e) => e.url.contains(book.url))
-        .isEmpty;
+    // final result = WishListStore.instance.wishBooks
+    //     .where((e) => e.url.contains(book.url))
+    //     .isEmpty;
 
-    if (result) {
-      final id = WishListStore.instance.wishBooks.length;
-      WishListStore.instance.wishBooks.add(WishListModel(
-        wishBookId: id,
-        title: book.title,
-        content: book.contents,
-        url: book.url,
-        dateTime: book.dateTime,
-        authors: book.authors,
-        publisher: book.publisher,
-        translators: book.translators,
-        thumbnail: book.thumbnail,
-        isbn: book.isbn,
-      ));
-    }
+    // if (result) {
+    //   final id = WishListStore.instance.wishBooks.length;
+    //   WishListStore.instance.wishBooks.add(BookModel(
+    //     bookId: id,
+    //     title: book.title,
+    //     contents: book.contents,
+    //     url: book.url,
+    //     dateTime: book.dateTime,
+    //     authors: book.authors,
+    //     publisher: book.publisher,
+    //     translators: book.translators,
+    //     thumbnail: book.thumbnail,
+    //     isbn: book.isbn,
+    //     isRead: false,
+    //     isSaved: true,
+    //   ));
+    // }
 
-    print(result);
+    // print(result);
+
+    Client.create().addWishList(book);
 
     setState(() {});
   }

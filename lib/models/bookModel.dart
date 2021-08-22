@@ -14,8 +14,8 @@ class BookModel {
   final String translators;
   final String thumbnail;
   final String isbn;
-  bool isRead;
-  bool isSaved;
+  final bool isRead;
+  final bool isSaved;
 
   BookModel({
     this.bookId,

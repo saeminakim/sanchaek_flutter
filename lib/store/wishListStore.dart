@@ -1,5 +1,5 @@
 import 'package:mobx/mobx.dart';
-import '../models/wishListModel.dart';
+import 'package:sanchaek/models/bookModel.dart';
 
 part 'wishListStore.g.dart';
 
@@ -16,5 +16,5 @@ class WishListStore extends _WishListStore with _$WishListStore {
 }
 
 abstract class _WishListStore with Store {
-  ObservableList<WishListModel> wishBooks = ObservableList();
+  ObservableList<BookModel> wishBooks = ObservableList();
 }
