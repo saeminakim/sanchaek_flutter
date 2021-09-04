@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sanchaek/pages/mainPage.dart';
+import 'package:sanchaek/components/bottomMenus.dart';
+import 'package:sanchaek/pages/home.dart';
+import 'package:sanchaek/pages/journalList.dart';
+import 'package:sanchaek/pages/search.dart';
+import 'package:sanchaek/pages/wishList.dart';
 
 import 'constants/customColor.dart';
 
@@ -18,14 +23,29 @@ class _AppState extends State<App> {
     SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
     );
-    return CupertinoApp(
+    return MaterialApp(
       title: '마음산.책',
-      theme: CupertinoThemeData(
+      theme: ThemeData(
         primaryColor: CustomColors.iconNavy,
+        accentColor: Colors.grey[200],
         brightness: Brightness.light,
         scaffoldBackgroundColor: CupertinoColors.systemGrey6,
       ),
-      home: MainPage(),
+      home: DefaultTabController(
+        length: 4,
+        child: Scaffold(
+          body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              Home(),
+              JournalList(),
+              WishList(),
+              Search(),
+            ],
+          ),
+          bottomNavigationBar: BottomMenus(),
+        ),
+      ),
     );
   }
 }

@@ -93,6 +93,11 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // TODO 홈 화면 상단 메뉴
+  _topBar() => Container(
+        child: Row(),
+      );
+
   Widget _topImage() {
     devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
     displayWidth =

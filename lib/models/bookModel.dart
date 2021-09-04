@@ -13,7 +13,10 @@ class BookModel {
   final String publisher;
   final String translators;
   final String thumbnail;
+  final String price;
+  final String salePrice;
   final String isbn;
+  final String status;
   final bool isRead;
   final bool isSaved;
 
@@ -27,7 +30,10 @@ class BookModel {
     this.publisher,
     this.translators,
     this.thumbnail,
+    this.price,
+    this.salePrice,
     this.isbn,
+    this.status,
     this.isRead,
     this.isSaved,
   });

@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:sanchaek/http/client.dart';
 import 'package:sanchaek/models/bookModel.dart';
 
 part 'wishListStore.g.dart';
@@ -17,4 +18,22 @@ class WishListStore extends _WishListStore with _$WishListStore {
 
 abstract class _WishListStore with Store {
   ObservableList<BookModel> wishBooks = ObservableList();
+
+  @observable
+  bool loading = false;
+
+  @action
+  load() async {
+    if (loading) {
+      return;
+    }
+
+    try {
+      loading = true;
+
+      wishBooks = await Client.create().getWishList();
+    } finally {
+      loading = false;
+    }
+  }
 }
