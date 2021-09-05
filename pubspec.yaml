@@ -21,6 +21,8 @@ dependencies:
 
   retrofit: ^1.3.4+1
 
+  fluttertoast: ^7.1.8
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

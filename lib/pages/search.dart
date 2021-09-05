@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sanchaek/constants/customColor.dart';
 import 'package:sanchaek/http/client.dart';
 import 'package:sanchaek/models/bookModel.dart';
-import 'package:sanchaek/models/requestSavedModel.dart';
-import 'package:sanchaek/store/wishListStore.dart';
-import '../models/wishListModel.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -14,6 +12,7 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   TextEditingController _textController;
+  FocusNode focusNode = FocusNode();
 
   @override
   void initState() {
@@ -29,23 +28,16 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        backgroundColor: CupertinoColors.systemGrey6,
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.transparent,
-          ),
-        ),
-        middle: Text(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
           '검색',
-          style: TextStyle(
-            color: CustomColors.iconNavy,
-            fontSize: 15,
-          ),
+          style: TextStyle(fontSize: 15),
         ),
+        elevation: 0,
+        centerTitle: true,
       ),
-      child: _books.isEmpty
+      body: _books.isEmpty
           ? Column(
               children: [
                 _searchBar(),
@@ -62,33 +54,54 @@ class _SearchState extends State<Search> {
   }
 
   _searchBar() => Container(
-        margin: EdgeInsets.only(left: 6, right: 6),
+        margin: EdgeInsets.all(6),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: CupertinoColors.white,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 8,
-              vertical: 4,
-            ),
             child: Row(
               children: [
                 Expanded(
-                  child: CupertinoTextField(
+                  child: TextField(
                     controller: _textController,
-                    decoration: null,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    _books = await Client.create().books(_textController.text);
-                    setState(() {});
-                  },
-                  child: Icon(
-                    CupertinoIcons.search,
-                    color: CustomColors.iconGrey,
+                    focusNode: focusNode,
+                    style: TextStyle(fontSize: 13),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.all(5),
+                      prefixIcon: IconButton(
+                        icon: Icon(Icons.search),
+                        color: CustomColors.iconGrey,
+                        iconSize: 20,
+                        onPressed: () async {
+                          _books =
+                              await Client.create().books(_textController.text);
+                          setState(() {});
+                        },
+                      ),
+                      suffixIcon: focusNode.hasFocus
+                          ? IconButton(
+                              icon: Icon(
+                                Icons.cancel,
+                                color: CustomColors.iconGrey,
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    _textController.clear();
+                                  },
+                                );
+                              },
+                            )
+                          : Container(),
+                    ),
                   ),
                 ),
               ],
@@ -244,9 +257,26 @@ class _SearchState extends State<Search> {
     );
   }
 
-  _saveBook(BookModel book) {
-    Client.create().addWishList(book);
+  _saveBook(BookModel book) async {
+    try {
+      await Client.create().addWishList(book);
 
-    setState(() {});
+      showToast('마음살.책에 저장되었습니다.');
+
+      setState(() {});
+    } catch (ex) {
+      showToast('책을 저장할 수 없습니다.');
+    }
+  }
+
+  showToast(String msg) async {
+    await Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Theme.of(context).accentColor.withOpacity(0.6),
+      textColor: Colors.black,
+      fontSize: 13,
+    );
   }
 }

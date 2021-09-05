@@ -19,70 +19,31 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        backgroundColor: Colors.transparent,
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.transparent,
-          ),
-        ),
-        middle: Text(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
           '$name님의 서재',
-          style: TextStyle(
-            color: CustomColors.iconNavy,
-            fontSize: 15,
-          ),
+          style: TextStyle(fontSize: 15),
         ),
-        trailing: CupertinoButton(
-          padding: EdgeInsets.only(bottom: 2),
-          onPressed: () {
-            showCupertinoModalPopup(
-              context: context,
-              builder: (BuildContext context) => CupertinoActionSheet(
-                actions: [
-                  CupertinoActionSheetAction(
-                    onPressed: () {
-                      print('액션1');
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('이미지 편집'),
-                  ),
-                  CupertinoActionSheetAction(
-                    onPressed: () {
-                      print('액션2');
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('글귀 편집'),
-                  ),
-                  CupertinoActionSheetAction(
-                    onPressed: () {
-                      print('액션3');
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('독서 목표 설정'),
-                  )
-                ],
-                cancelButton: CupertinoActionSheetAction(
-                  onPressed: () {
-                    print('취소');
-                    Navigator.pop(context);
-                  },
-                  child: Text('취소'),
-                ),
-              ),
-            );
-          },
-          child: Icon(
-            Icons.settings,
-            color: CustomColors.iconGrey,
-            size: 20,
+        actions: [
+          Container(
+            child: IconButton(
+              onPressed: () {
+                _menus();
+              },
+              icon: Icon(Icons.settings),
+              color: CustomColors.iconGrey,
+              iconSize: 20,
+            ),
           ),
-        ),
+        ],
+        elevation: 0,
+        centerTitle: true,
       ),
-      child: Column(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // _topBar(),
           _topImage(),
           Container(height: 10),
           _quote(),
@@ -93,9 +54,30 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // TODO 홈 화면 상단 메뉴
-  _topBar() => Container(
-        child: Row(),
+  _menus() => showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.photo),
+                title: Text('이미지 편집'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.edit),
+                title: Text('글귀 편집'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.check_circle_outline),
+                title: Text('독서 목표 설정'),
+                onTap: () {},
+              ),
+            ],
+          );
+        },
       );
 
   Widget _topImage() {
