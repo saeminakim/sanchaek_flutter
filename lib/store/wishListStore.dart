@@ -17,7 +17,7 @@ class WishListStore extends _WishListStore with _$WishListStore {
 }
 
 abstract class _WishListStore with Store {
-  ObservableList<BookModel> wishBooks = ObservableList();
+  List wishBooks;
 
   @observable
   bool loading = false;

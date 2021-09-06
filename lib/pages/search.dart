@@ -115,13 +115,15 @@ class _SearchState extends State<Search> {
     displayHeight = MediaQuery.of(context).size.height * devicePixelRatio;
     displayWidth = MediaQuery.of(context).size.width * devicePixelRatio;
 
-    return Container(
-      height: displayHeight * 0.25,
-      padding: EdgeInsets.all(10),
-      child: ListView(
-        children: List.generate(
-          _books.length,
-          (index) => _book(_books[index]),
+    return Expanded(
+      child: Container(
+        height: displayHeight * 0.25,
+        padding: EdgeInsets.all(10),
+        child: ListView(
+          children: List.generate(
+            _books.length,
+            (index) => _book(_books[index]),
+          ),
         ),
       ),
     );
