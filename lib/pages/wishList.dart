@@ -2,6 +2,7 @@ import 'package:sanchaek/constants/customColor.dart';
 import 'package:sanchaek/http/client.dart';
 import 'package:flutter/material.dart';
 import 'package:sanchaek/models/bookModel.dart';
+import 'package:sanchaek/pages/bookDetails.dart';
 import 'package:sanchaek/store/wishListStore.dart';
 
 class WishList extends StatefulWidget {
@@ -68,19 +69,49 @@ class _WishListState extends State<WishList> {
           children: [
             Stack(
               children: [
-                Container(
-                  padding: EdgeInsets.all(5),
-                  color: Colors.white,
-                  child: Image(
-                    image: NetworkImage(book.thumbnail),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return BookDetails(book: book);
+                        },
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    color: Colors.white,
+                    child: Image(
+                      image: NetworkImage(book.thumbnail),
+                    ),
                   ),
                 ),
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Icon(Icons.edit),
-                    Icon(Icons.favorite),
-                  ],
+                Positioned(
+                  top: 5,
+                  right: 5,
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(3),
+                        color: Colors.white.withOpacity(0.6),
+                        child: Icon(
+                          Icons.edit,
+                          color: CustomColors.iconNavy,
+                          size: 15,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(3),
+                        color: Colors.white.withOpacity(0.6),
+                        child: Icon(
+                          Icons.favorite,
+                          color: CustomColors.iconNavy,
+                          size: 15,
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
