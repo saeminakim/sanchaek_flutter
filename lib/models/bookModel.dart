@@ -8,7 +8,7 @@ class BookModel {
   final String title;
   final String contents;
   final String url;
-  final String dateTime;
+  final DateTime dateTime;
   final String authors;
   final String publisher;
   final String translators;

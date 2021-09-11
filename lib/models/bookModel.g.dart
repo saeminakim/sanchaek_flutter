@@ -12,7 +12,9 @@ BookModel _$BookModelFromJson(Map<String, dynamic> json) {
     title: json['title'] as String,
     contents: json['contents'] as String,
     url: json['url'] as String,
-    dateTime: json['dateTime'] as String,
+    dateTime: json['dateTime'] == null
+        ? null
+        : DateTime.parse(json['dateTime'] as String),
     authors: json['authors'] as String,
     publisher: json['publisher'] as String,
     translators: json['translators'] as String,
@@ -31,7 +33,7 @@ Map<String, dynamic> _$BookModelToJson(BookModel instance) => <String, dynamic>{
       'title': instance.title,
       'contents': instance.contents,
       'url': instance.url,
-      'dateTime': instance.dateTime,
+      'dateTime': instance.dateTime?.toIso8601String(),
       'authors': instance.authors,
       'publisher': instance.publisher,
       'translators': instance.translators,

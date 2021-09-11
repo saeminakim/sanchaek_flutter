@@ -12,7 +12,6 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   TextEditingController _textController;
-  FocusNode focusNode = FocusNode();
 
   @override
   void initState() {
@@ -61,49 +60,49 @@ class _SearchState extends State<Search> {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: 4,
+            ),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _textController,
-                    focusNode: focusNode,
-                    style: TextStyle(fontSize: 13),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.all(5),
-                      prefixIcon: IconButton(
-                        icon: Icon(Icons.search),
-                        color: CustomColors.iconGrey,
-                        iconSize: 20,
-                        onPressed: () async {
-                          _books =
-                              await Client.create().books(_textController.text);
-                          setState(() {});
-                        },
-                      ),
-                      suffixIcon: focusNode.hasFocus
-                          ? IconButton(
-                              icon: Icon(
-                                Icons.cancel,
-                                color: CustomColors.iconGrey,
-                                size: 20,
-                              ),
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    _textController.clear();
-                                  },
-                                );
-                              },
-                            )
-                          : Container(),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.black,
                     ),
+                    // decoration: InputDecoration(
+                    //   border: InputBorder.none,
+                    //   focusedBorder: InputBorder.none,
+                    //   enabledBorder: InputBorder.none,
+                    //   errorBorder: InputBorder.none,
+                    //   disabledBorder: InputBorder.none,
+                    //   contentPadding: EdgeInsets.all(5),
+                    //   prefixIcon: IconButton(
+                    //     icon: Icon(Icons.search),
+                    //     color: CustomColors.iconGrey,
+                    //     iconSize: 20,
+                    //     onPressed: () async {
+                    //       _books =
+                    //           await Client.create().books(_textController.text);
+                    //       setState(() {});
+                    //     },
+                    //   ),
+                    // ),
                   ),
                 ),
+                GestureDetector(
+                  onTap: () async {
+                    _books = await Client.create().books(_textController.text);
+                    setState(() {});
+                  },
+                  child: Icon(
+                    Icons.search,
+                    color: CustomColors.iconGrey,
+                  ),
+                )
               ],
             ),
           ),
