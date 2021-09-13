@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sanchaek/constants/customColor.dart';
 import 'package:sanchaek/http/client.dart';
 import 'package:sanchaek/models/bookModel.dart';
+import 'package:sanchaek/pages/bookDetails.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -54,58 +55,48 @@ class _SearchState extends State<Search> {
 
   _searchBar() => Container(
         margin: EdgeInsets.all(6),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 8,
-              vertical: 4,
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _textController,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.black,
+        child: Column(
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Container(
+                padding: EdgeInsets.only(left: 7, right: 7),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _textController,
+                        style: TextStyle(
+                          fontSize: 13,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: "검색",
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                        ),
+                      ),
                     ),
-                    // decoration: InputDecoration(
-                    //   border: InputBorder.none,
-                    //   focusedBorder: InputBorder.none,
-                    //   enabledBorder: InputBorder.none,
-                    //   errorBorder: InputBorder.none,
-                    //   disabledBorder: InputBorder.none,
-                    //   contentPadding: EdgeInsets.all(5),
-                    //   prefixIcon: IconButton(
-                    //     icon: Icon(Icons.search),
-                    //     color: CustomColors.iconGrey,
-                    //     iconSize: 20,
-                    //     onPressed: () async {
-                    //       _books =
-                    //           await Client.create().books(_textController.text);
-                    //       setState(() {});
-                    //     },
-                    //   ),
-                    // ),
-                  ),
+                    GestureDetector(
+                      onTap: () async {
+                        _books =
+                            await Client.create().books(_textController.text);
+                        setState(() {});
+                      },
+                      child: Icon(
+                        Icons.search,
+                        color: CustomColors.iconGrey,
+                      ),
+                    )
+                  ],
                 ),
-                GestureDetector(
-                  onTap: () async {
-                    _books = await Client.create().books(_textController.text);
-                    setState(() {});
-                  },
-                  child: Icon(
-                    Icons.search,
-                    color: CustomColors.iconGrey,
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       );
 
@@ -142,91 +133,102 @@ class _SearchState extends State<Search> {
   }
 
   _bookCard(BookModel book) {
-    return Container(
-      width: displayWidth * 0.24,
-      decoration: BoxDecoration(
-        color: CupertinoColors.white,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      padding: EdgeInsets.all(8),
-      child: Row(
-        children: [
-          Container(
-            height: displayHeight * 0.037,
-            width: displayWidth * 0.01,
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return BookDetails(book: book);
+            },
           ),
-          Expanded(
-            flex: 2,
-            child: Column(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    _saveBook(book);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        child: !book.isSaved
-                            ? Icon(
-                                CupertinoIcons.heart,
-                                color: CustomColors.iconGrey,
-                                size: 10,
-                              )
-                            : Icon(
-                                CupertinoIcons.heart_fill,
-                                color: CupertinoColors.systemRed,
-                                size: 10,
-                              ),
-                      ),
-                      Container(
-                        width: 3,
-                      ),
-                      Container(
-                        child: Icon(
-                          CupertinoIcons.book,
-                          color: CustomColors.iconGrey,
-                          size: 10,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.all(8),
-                  child: Text(
-                    book.title,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 10),
-                  child: Text(
-                    book.authors,
-                    style: TextStyle(
-                      fontSize: 10,
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 10),
-                  child: Text(
-                    '',
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ],
+        );
+      },
+      child: Container(
+        width: displayWidth * 0.24,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: EdgeInsets.all(8),
+        child: Row(
+          children: [
+            Container(
+              height: displayHeight * 0.037,
+              width: displayWidth * 0.01,
             ),
-          ),
-        ],
+            Expanded(
+              flex: 2,
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _saveBook(book);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          child: !book.isSaved
+                              ? Icon(
+                                  CupertinoIcons.heart,
+                                  color: CustomColors.iconGrey,
+                                  size: 10,
+                                )
+                              : Icon(
+                                  CupertinoIcons.heart_fill,
+                                  color: CupertinoColors.systemRed,
+                                  size: 10,
+                                ),
+                        ),
+                        Container(
+                          width: 3,
+                        ),
+                        Container(
+                          child: Icon(
+                            CupertinoIcons.book,
+                            color: CustomColors.iconGrey,
+                            size: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      book.title,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      book.authors,
+                      style: TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      '',
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -234,27 +236,38 @@ class _SearchState extends State<Search> {
   _bookThumbnail(BookModel book) {
     final thumbnail = book.thumbnail;
     final thumbnailIsEmpty = thumbnail.isEmpty;
-    return Container(
-      decoration: BoxDecoration(
-        color: CupertinoColors.white,
-        borderRadius: BorderRadius.circular(4),
-        boxShadow: [
-          BoxShadow(
-            color: CupertinoColors.systemGrey4.withOpacity(0.5),
-            spreadRadius: 1,
-            blurRadius: 4,
-            offset: Offset(1, 3),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return BookDetails(book: book);
+            },
           ),
-        ],
-      ),
-      height: displayHeight * 0.055,
-      padding: EdgeInsets.all(4),
-      margin: EdgeInsets.all(8),
-      child: thumbnailIsEmpty
-          ? Image.asset('assets/noimage.png')
-          : Image(
-              image: NetworkImage(thumbnail),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: CupertinoColors.white,
+          borderRadius: BorderRadius.circular(4),
+          boxShadow: [
+            BoxShadow(
+              color: CupertinoColors.systemGrey4.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 4,
+              offset: Offset(1, 3),
             ),
+          ],
+        ),
+        height: displayHeight * 0.055,
+        padding: EdgeInsets.all(4),
+        margin: EdgeInsets.all(8),
+        child: thumbnailIsEmpty
+            ? Image.asset('assets/noimage.png')
+            : Image(
+                image: NetworkImage(thumbnail),
+              ),
+      ),
     );
   }
 
